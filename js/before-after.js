@@ -12,35 +12,51 @@ function setZindex() {
 $(function(){
   var target = $(".before-after-image");
   var targetOffset = target.offset();
-  var x = 0;
-  var y = 0;
-
   var IMAGEDIR = {
     TOP:    Math.floor(targetOffset.top),
     RIGHT:  Math.floor(target.width()),
     BOTTOM: Math.floor(target.height()),
     LEFT:   Math.floor(targetOffset.left)
   };
+
   var FROMDIR = {
     UP:    0,
     DOWN:  1,
     RIGHT: 2,
     LEFT:  3
   };
+  var from = FROMDIR.LEFT;
+
+  var x = 0;
+  var y = 0;
 
   setZindex();
+
+  target.on('mouseenter', function(e){
+    setXY(e);
+    //UP/DOWNも考慮する場合、判定範囲を対角線区切り(四角に対角線で4ブロック)に変更する必要あり
+    if( x > IMAGEDIR.RIGHT/2 ) {
+      from = FROMDIR.RIGHT;
+    }
+    else{
+      from = FROMDIR.LEFT;
+    }
+  });
 
   target.on('mousemove', function(e){
     setXY(e);
     displayPosition(e);
-    $(".before-after-image__item--selected").css("clip", "rect(0px," + IMAGEDIR.RIGHT + "px," + IMAGEDIR.BOTTOM + "px," + x + "px)");
+    if( from === FROMDIR.LEFT ){
+      $(".before-after-image__item--selected").css("clip", "rect(0px," + IMAGEDIR.RIGHT + "px," + IMAGEDIR.BOTTOM + "px," + x + "px)");
+    }
+    //RIGHT/TOP/BOTTOMの場合の切り取り取り方をさらに下に定義する
   });
 
   target.on('mouseleave', function(){
     //clipを段階的にすることで、ぬるっとできる
-    if(x > IMAGEDIR.RIGHT/2) {
+    if( from === FROMDIR.LEFT && x > IMAGEDIR.RIGHT/2 ) {
       var selected = $(".before-after-image__item--selected");
-      selected.css("display", "none");
+      selected.hide("slow");
       selected.removeClass("before-after-image__item--selected");
       var next = selected.next(".before-after-image__item");
       next.addClass("before-after-image__item--selected");
@@ -58,4 +74,14 @@ $(function(){
     $(".js-position-x").html(x);
     $(".js-position-y").html(y);
   }
+
+  $(".js-reset-btn").on('click', function(){
+    $(".before-after-image__item").each(function(i) {
+      $(this).removeClass("before-after-image__item--selected");
+      $(this).css("clip", "rect(0px," + IMAGEDIR.RIGHT + "px," + IMAGEDIR.BOTTOM + "px, 0px)");
+      $(this).show();
+      $(this).css("z-index", count-i);
+    });
+    $(".before-after-image__item").first().addClass("before-after-image__item--selected");
+  });
 });
