@@ -85,10 +85,19 @@ $(function(){
     mousemove: function(e){
       setXY(e);
       displayPosition(e);
-      if( from === FROMDIR.LEFT ){
-        $(".before-after-image__item--selected").css("clip", "rect(0px," + IMAGEDIR.RIGHT + "px," + IMAGEDIR.BOTTOM + "px," + x + "px)");
+      switch( from ){
+        case FROMDIR.LEFT:
+          $(".before-after-image__item--selected").css("clip", "rect(0px," + IMAGEDIR.RIGHT + "px," + IMAGEDIR.BOTTOM + "px," + x + "px)");
+          break;
+        case FROMDIR.RIGHT:
+          break;
+        case FROMDIR.TOP:
+          break;
+        case FROMDIR.BOTTOM:
+          break;
+        default:
+          break;
       }
-      //RIGHT/TOP/BOTTOMの場合の切り取り取り方をさらに下に定義する
     },
     mouseleave: function(e){
       //leaveした時点が左端だったらrectをresetする
