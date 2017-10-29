@@ -91,16 +91,26 @@ $(function(){
       //RIGHT/TOP/BOTTOMの場合の切り取り取り方をさらに下に定義する
     },
     mouseleave: function(){
+      //leaveした時点が左端だったらrectをresetする
       //clipを段階的にすることで、ぬるっとできる
-      if( from === FROMDIR.LEFT && x > IMAGEDIR.RIGHT/2 ) {
-        var selected = $(".before-after-image__item--selected");
-        selected.hide("slow");
-        selected.removeClass("before-after-image__item--selected");
-        var next = selected.next(".before-after-image__item");
-        next.addClass("before-after-image__item--selected");
-      }
-      else {
-        // 左側の場合、現在画像でstay
+      switch( from ){
+        case FROMDIR.LEFT:
+          if( x > IMAGEDIR.RIGHT/2 ){
+            var selected = $(".before-after-image__item--selected");
+            selected.hide("slow");
+            selected.removeClass("before-after-image__item--selected");
+            var next = selected.next(".before-after-image__item");
+            next.addClass("before-after-image__item--selected");
+          }
+          break;
+        case FROMDIR.RIGHT:
+          break;
+        case FROMDIR.TOP:
+          break;
+        case FROMDIR.BOTTOM:
+          break;
+        default:
+          break;
       }
     }
   });
