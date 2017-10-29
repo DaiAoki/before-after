@@ -1,0 +1,40 @@
+.main {
+  background-color: #f4f4f4;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  padding-top: 75px;
+}
+
+.before-after-image {
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+}
+
+.before-after-image__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.before-after-image__item--selected {
+  z-index: 2;
+}
+
+.position {
+  width: 250px;
+  background-color: #4f4f4f;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 10px;
+}
+.position__item {
+  background-color: #f4f4f4;
+}
